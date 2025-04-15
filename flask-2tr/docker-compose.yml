@@ -35,7 +35,7 @@ services:
     depends_on:
       - mysql
     networks:
-      - twotier
+      - rishabh
     restart: always
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:5000/health || exit 1"]
@@ -45,4 +45,4 @@ services:
       start_period: 30s
 
 networks:
-  twotier:
+  rishabh:
