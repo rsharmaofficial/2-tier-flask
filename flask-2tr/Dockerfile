@@ -1,22 +1,22 @@
 FROM python:3.9-slim
 
+# Set working directory
 WORKDIR /app
 
-# Install system dependencies + pip packages in one go
+# Install system dependencies + MySQL dev libs
 RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y gcc default-libmysqlclient-dev pkg-config && \
-    pip install mysqlclient && \
-    pip install --no-cache-dir -r requirements.txt && \
+    apt-get install -y gcc default-libmysqlclient-dev curl && \
     rm -rf /var/lib/apt/lists/*
 
+# Copy requirements file & install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
 COPY . .
 
-# # Optional env vars
-# ENV PYTHONDONTWRITEBYTECODE 1
-# ENV PYTHONUNBUFFERED 1
-
-# Optional expose
+# Expose port
 EXPOSE 5000
 
+# Run app
 CMD ["python", "app.py"]
